@@ -1,11 +1,11 @@
-package com.github.spartatech.sqljson.jsonprocessing;
+package io.github.spartatech.sqljson.jsonprocessing;
 
-import com.github.spartatech.sqljson.SqlJson;
+import io.github.spartatech.sqljson.SqlJson;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import com.github.spartatech.sqljson.vo.JsonResultSet;
+import io.github.spartatech.sqljson.vo.JsonResultSet;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

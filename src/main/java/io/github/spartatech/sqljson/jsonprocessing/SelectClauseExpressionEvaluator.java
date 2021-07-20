@@ -1,9 +1,9 @@
-package com.github.spartatech.sqljson.jsonprocessing;
+package io.github.spartatech.sqljson.jsonprocessing;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.spartatech.sqljson.exception.ExceptionWrapper;
-import com.github.spartatech.sqljson.exception.ExpressionNotSupportedException;
-import com.github.spartatech.sqljson.util.JsonUtility;
+import io.github.spartatech.sqljson.exception.ExceptionWrapper;
+import io.github.spartatech.sqljson.exception.ExpressionNotSupportedException;
+import io.github.spartatech.sqljson.util.JsonUtility;
 import net.sf.jsqlparser.expression.ExpressionVisitorAdapter;
 import net.sf.jsqlparser.expression.Function;
 import net.sf.jsqlparser.schema.Column;

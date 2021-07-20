@@ -1,4 +1,4 @@
-package com.github.spartatech.sqljson.util;
+package io.github.spartatech.sqljson.util;
 
 import java.time.Instant;
 import java.time.LocalDate;

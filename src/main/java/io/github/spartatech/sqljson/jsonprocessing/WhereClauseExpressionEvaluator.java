@@ -1,8 +1,8 @@
-package com.github.spartatech.sqljson.jsonprocessing;
+package io.github.spartatech.sqljson.jsonprocessing;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.spartatech.sqljson.exception.ExpressionNotSupportedException;
-import com.github.spartatech.sqljson.vo.ExpressionSidesValidator;
+import io.github.spartatech.sqljson.exception.ExpressionNotSupportedException;
+import io.github.spartatech.sqljson.vo.ExpressionSidesValidator;
 import net.sf.jsqlparser.expression.*;
 import net.sf.jsqlparser.expression.operators.arithmetic.*;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
@@ -12,9 +12,9 @@ import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.select.SubSelect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.github.spartatech.sqljson.exception.ExceptionWrapper;
-import com.github.spartatech.sqljson.vo.MultiColumn;
-import com.github.spartatech.sqljson.vo.MultiListType;
+import io.github.spartatech.sqljson.exception.ExceptionWrapper;
+import io.github.spartatech.sqljson.vo.MultiColumn;
+import io.github.spartatech.sqljson.vo.MultiListType;
 
 import java.sql.SQLException;
 import java.time.Instant;
@@ -30,8 +30,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static com.github.spartatech.sqljson.util.GeneralConverters.*;
-import static com.github.spartatech.sqljson.util.StringUtility.unquote;
+import static io.github.spartatech.sqljson.util.GeneralConverters.*;
+import static io.github.spartatech.sqljson.util.StringUtility.unquote;
 
 public class WhereClauseExpressionEvaluator extends ExpressionVisitorAdapter {
 

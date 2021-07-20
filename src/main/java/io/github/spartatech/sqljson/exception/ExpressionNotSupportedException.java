@@ -1,4 +1,4 @@
-package com.github.spartatech.sqljson.exception;
+package io.github.spartatech.sqljson.exception;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

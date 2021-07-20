@@ -1,14 +1,14 @@
-package com.github.spartatech.sqljson.jsonprocessing;
+package io.github.spartatech.sqljson.jsonprocessing;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import net.sf.jsqlparser.statement.select.SelectItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.github.spartatech.sqljson.exception.ExceptionWrapper;
-import com.github.spartatech.sqljson.util.JsonUtility;
-import com.github.spartatech.sqljson.vo.JsonQueryClause;
-import com.github.spartatech.sqljson.vo.JsonResultSet;
+import io.github.spartatech.sqljson.exception.ExceptionWrapper;
+import io.github.spartatech.sqljson.util.JsonUtility;
+import io.github.spartatech.sqljson.vo.JsonQueryClause;
+import io.github.spartatech.sqljson.vo.JsonResultSet;
 
 import java.sql.SQLSyntaxErrorException;
 import java.util.*;

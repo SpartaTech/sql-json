@@ -1,4 +1,4 @@
-package com.github.spartatech.sqljson.vo;
+package io.github.spartatech.sqljson.vo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;

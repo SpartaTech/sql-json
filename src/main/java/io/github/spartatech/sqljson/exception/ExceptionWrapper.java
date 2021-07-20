@@ -1,4 +1,4 @@
-package com.github.spartatech.sqljson.exception;
+package io.github.spartatech.sqljson.exception;
 
 public class ExceptionWrapper extends RuntimeException {
     private final Exception realException;

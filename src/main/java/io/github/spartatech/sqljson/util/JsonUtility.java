@@ -1,11 +1,11 @@
-package com.github.spartatech.sqljson.util;
+package io.github.spartatech.sqljson.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.github.spartatech.sqljson.exception.ExceptionWrapper;
+import io.github.spartatech.sqljson.exception.ExceptionWrapper;
 
 import java.sql.SQLException;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package com.github.spartatech.sqljson.sqlparse;
+package io.github.spartatech.sqljson.sqlparse;
 
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
@@ -6,13 +6,13 @@ import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.select.PlainSelect;
 import net.sf.jsqlparser.statement.select.Select;
 import net.sf.jsqlparser.util.TablesNamesFinder;
-import com.github.spartatech.sqljson.vo.JsonQueryClause;
+import io.github.spartatech.sqljson.vo.JsonQueryClause;
 
 import java.sql.SQLFeatureNotSupportedException;
 import java.sql.SQLSyntaxErrorException;
 import java.util.List;
 
-import static com.github.spartatech.sqljson.util.StringUtility.unquote;
+import static io.github.spartatech.sqljson.util.StringUtility.unquote;
 
 /**
  * Class responsible to Parse the SQL query and convert to

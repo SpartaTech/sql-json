@@ -1,4 +1,4 @@
-package com.github.spartatech.sqljson.vo;
+package io.github.spartatech.sqljson.vo;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,11 +1,11 @@
-package com.github.spartatech.sqljson;
+package io.github.spartatech.sqljson;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.spartatech.sqljson.jsonprocessing.JsonProcessor;
-import com.github.spartatech.sqljson.sqlparse.SqlParser;
-import com.github.spartatech.sqljson.vo.JsonQueryClause;
-import com.github.spartatech.sqljson.vo.JsonResultSet;
+import io.github.spartatech.sqljson.jsonprocessing.JsonProcessor;
+import io.github.spartatech.sqljson.sqlparse.SqlParser;
+import io.github.spartatech.sqljson.vo.JsonQueryClause;
+import io.github.spartatech.sqljson.vo.JsonResultSet;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
