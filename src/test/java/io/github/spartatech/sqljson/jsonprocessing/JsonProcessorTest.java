@@ -96,6 +96,7 @@ public class JsonProcessorTest {
         assertEquals("Cannot find element 'invalid'", ex.getMessage());
     }
 
+
     @Test
     public void simple_equals_scenario_return_dot() throws Exception {
         final String json = loadFromFile("simple-scenario");
@@ -137,6 +138,21 @@ public class JsonProcessorTest {
         assertEquals(1, results.size());
         results.next();
         assertEquals("Daniel", results.getString("name"));
+    }
+
+    @Test
+    public void simple_equals_scenario_with_filter_is_not_null_return_columns() throws Exception {
+        final String json = loadFromFile("simple-scenario");
+        final String sql = "select name from items where name is not null";
+
+        final SqlJson sqlj = new SqlJson(json);
+        final JsonResultSet results = sqlj.queryAsJSONObject(sql);
+
+        assertEquals(2, results.size());
+        results.next();
+        assertEquals("Daniel", results.getString("name"));
+        results.next();
+        assertEquals("John", results.getString("name"));
     }
 
     @Test
@@ -453,7 +469,7 @@ public class JsonProcessorTest {
     @Test
     public void multi_column_filter_any_scenario_return_columns() throws Exception {
         final String json = loadFromFile("multiple-list-scenario");
-        final String sql = "select * from levels where matchAny(elements.name) = 'Level1Element1'";
+        final String sql = "'Level1Element1'";
 
         final SqlJson sqlj = new SqlJson(json);
         final JsonResultSet results = sqlj.queryAsJSONObject(sql);

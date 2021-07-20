@@ -238,7 +238,15 @@ public class WhereClauseExpressionEvaluator extends ExpressionVisitorAdapter {
 
     @Override
     public void visit(IsNullExpression isNullExpression) {
-
+        try {
+            final Object value = resolveValue(isNullExpression.getLeftExpression());
+            keep = value == null;
+            if (isNullExpression.isNot()) {
+                keep = !keep;
+            }
+        } catch (SQLException e) {
+            throw ExceptionWrapper.of(e);
+        }
     }
 
     @Override
