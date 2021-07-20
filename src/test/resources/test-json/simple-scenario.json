@@ -1,0 +1,6 @@
+{
+  "items" : [
+    {"name": "Daniel", "age":  38, "weight": 161.5, "vaccinated" : true, "birthdate": "1982-11-30", "lastModified" : "2012-04-23T18:25:43.511Z" },
+    {"name": "John", "age":  41, "weight": 180, "vaccinated" : false, "birthdate": "1978-01-30","lastModified" : "1998-04-23T18:25:43.511Z"}
+  ]
+}

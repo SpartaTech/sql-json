@@ -1,0 +1,62 @@
+{
+  "levels" : [
+    {
+      "name": "level1",
+      "elements" : [
+        {
+          "name": "Level1Element1",
+          "order" : 1,
+          "nodes": [
+            {
+              "value": "level1Element1Node1"
+            },
+            {
+              "value": "level1Element1Node2"
+            }
+          ]
+        },
+        {
+          "name": "Level1Element2",
+          "order" : 2,
+          "nodes": [
+            {
+              "value": "level1Element2Node1"
+            },
+            {
+              "value": "level1Element2Node2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "level2",
+      "elements" : [
+        {
+          "name": "Level2Element1",
+          "order" : 3,
+          "nodes": [
+            {
+              "value": "level2Element1Node1"
+            },
+            {
+              "value": "level2Element1Node2"
+            }
+          ]
+        },
+        {
+          "name": "Level2Element2",
+          "order" : 4,
+          "nodes": [
+            {
+              "value": "level2Element2Node1"
+            },
+            {
+              "value": "level2Element2Node2"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

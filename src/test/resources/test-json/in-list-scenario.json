@@ -1,0 +1,14 @@
+{
+  "items" : [
+    {
+      "name": "Daniel",
+      "age":  38,
+      "departments":  ["IT", "API"]
+    },
+    {
+      "name": "John",
+      "age":  41,
+      "departments": ["Finance", "Logistics"]
+    }
+  ]
+}

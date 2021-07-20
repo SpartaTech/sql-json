@@ -1,0 +1,6 @@
+{
+  "items" : [
+    {"name": "Daniel", "age":  38, "weight": 161.5, "body": {"hair": {"color":  "brown"}}},
+    {"name": "John", "age":  41, "weight": 180, "body": {"hair": {"color":  "blonde"}}}
+  ]
+}
