@@ -1,6 +1,7 @@
 package io.github.spartatech.sqljson.jsonprocessing;
 
 import io.github.spartatech.sqljson.SqlJson;
+import io.github.spartatech.sqljson.SqlJsonConfigurer;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,8 +13,7 @@ import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.util.Iterator;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for JsonProcessor.
@@ -39,15 +39,15 @@ public class JsonProcessorTest {
     @CsvSource({
             "simple-scenario,invalid,Cannot find element 'invalid'",
             "simple-scenario,items.invalid,Cannot find element 'invalid' from 'items.invalid'",
-            "multiple-list-scenario,levels.elements.invalid,Cannot find element 'invalid' from 'levels.elements.invalid'",
-            "multiple-list-scenario,levels.name.invalid,Cannot find element 'levels.name.invalid'"
+            "multiple-list-scenario,levels.elements.invalid,Cannot find element 'elements.invalid' from 'levels.elements.invalid'",
+            "multiple-list-scenario,levels.name.invalid,Cannot find element 'name.invalid' from 'levels.name.invalid'"
     })
     public void test_invalid_table(String jsonFile, String table, String errorMessage) throws Exception {
         final String json = loadFromFile(jsonFile);
-        final String sql = "select * from "+ table+" where name = 'Daniel'";
+        final String sql = "select * from " + table + " where name = 'Daniel'";
 
         final SqlJson sqlj = new SqlJson(json);
-        final var ex = assertThrows(SQLException.class, () ->sqlj.queryAsJSONObject(sql));
+        final var ex = assertThrows(SQLException.class, () -> sqlj.queryAsJSONObject(sql));
 
         assertEquals(errorMessage, ex.getMessage());
     }
@@ -91,7 +91,7 @@ public class JsonProcessorTest {
         final String json = loadFromFile("simple-scenario");
         final String sql = "select invalid from items where name = 'Daniel'";
 
-        final SqlJson sqlj = new SqlJson(json);
+        final SqlJson sqlj = new SqlJson(json, SqlJsonConfigurer.instance().strictResultRowExistence());
         final var ex = assertThrows(SQLException.class, () -> sqlj.queryAsJSONObject(sql));
         assertEquals("Cannot find element 'invalid'", ex.getMessage());
     }
@@ -469,7 +469,7 @@ public class JsonProcessorTest {
     @Test
     public void multi_column_filter_any_scenario_return_columns() throws Exception {
         final String json = loadFromFile("multiple-list-scenario");
-        final String sql = "'Level1Element1'";
+        final String sql = "select * from levels where matchAny(elements.name) = 'Level1Element1'";
 
         final SqlJson sqlj = new SqlJson(json);
         final JsonResultSet results = sqlj.queryAsJSONObject(sql);
@@ -678,8 +678,39 @@ public class JsonProcessorTest {
 
     }
 
+    @Test
+    public void missing_element_allowed() throws Exception {
+        final String json = loadFromFile("missing-element-scenario");
+        final String sql = "select name, age from items";
 
+        final SqlJson sqlj = new SqlJson(json);
+        final JsonResultSet results = sqlj.queryAsJSONObject(sql);
 
+        assertEquals(2, results.size());
+        results.next();
+        assertEquals("Daniel", results.getString("name"));
+        assertNull(results.getLong("age"));
+        results.next();
+        assertEquals("John", results.getString("name"));
+        assertEquals(41, results.getLong("age"));
+    }
+
+    @Test
+    public void missing_element_disallowed() throws Exception {
+        final String json = loadFromFile("missing-element-scenario");
+        final String sql = "select name, age from items";
+
+        final SqlJson sqlj = new SqlJson(json, SqlJsonConfigurer.instance().strictResultRowExistence());
+        assertThrows(Exception.class, () -> sqlj.queryAsJSONObject(sql));
+    }
+
+    /**
+     * Loads json for test from given file.
+     *
+     * @param filename file to load
+     * @return loaded file content
+     * @throws IOException in case fails loading the file
+     */
     private String loadFromFile(String filename) throws IOException {
         return IOUtils.resourceToString("./test-json/"+filename + ".json", Charset.defaultCharset(), this.getClass().getClassLoader());
     }

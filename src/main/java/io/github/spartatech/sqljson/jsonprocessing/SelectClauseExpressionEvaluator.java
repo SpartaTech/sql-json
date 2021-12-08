@@ -1,6 +1,7 @@
 package io.github.spartatech.sqljson.jsonprocessing;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import io.github.spartatech.sqljson.SqlJsonConfig;
 import io.github.spartatech.sqljson.exception.ExceptionWrapper;
 import io.github.spartatech.sqljson.exception.ExpressionNotSupportedException;
 import io.github.spartatech.sqljson.util.JsonUtility;
@@ -21,10 +22,12 @@ public class SelectClauseExpressionEvaluator extends ExpressionVisitorAdapter {
 
     private final JsonNode node;
     private final LinkedHashMap<String, JsonNode> result = new LinkedHashMap<>();
+    private final SqlJsonConfig config;
 
 
-    public SelectClauseExpressionEvaluator(JsonNode node) {
+    public SelectClauseExpressionEvaluator(JsonNode node, SqlJsonConfig config) {
         this.node = node;
+        this.config = config;
     }
 
     public LinkedHashMap<String, JsonNode> getResult() {
@@ -68,7 +71,7 @@ public class SelectClauseExpressionEvaluator extends ExpressionVisitorAdapter {
         @Override
         public void visit(Column column) {
             final String fieldName = column.getFullyQualifiedName();
-            final JsonNode value = JsonUtility.findElementInJson(node, fieldName, fieldName.split("\\."));
+            final JsonNode value = JsonUtility.findElementInJson(node, fieldName, fieldName.split("\\."), !config.isStrictResultRowExistence());
 
             if (value.isMissingNode()) {
                 throw ExceptionWrapper.of(
@@ -80,12 +83,12 @@ public class SelectClauseExpressionEvaluator extends ExpressionVisitorAdapter {
 
         @Override
         public void visit(Function function) {
-            throw new ExpressionNotSupportedException("Function select ("+function.toString()+ ")");
+            throw new ExpressionNotSupportedException("Function select (" + function.toString() + ")");
         }
 
         @Override
         public void visit(AllTableColumns allTableColumns) {
-            throw new ExpressionNotSupportedException("Wildcard select ("+allTableColumns.toString()+ ")");
+            throw new ExpressionNotSupportedException("Wildcard select (" + allTableColumns.toString() + ")");
         }
 
 

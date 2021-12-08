@@ -2,13 +2,14 @@ package io.github.spartatech.sqljson.jsonprocessing;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import net.sf.jsqlparser.statement.select.SelectItem;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.github.spartatech.sqljson.SqlJsonConfig;
 import io.github.spartatech.sqljson.exception.ExceptionWrapper;
 import io.github.spartatech.sqljson.util.JsonUtility;
 import io.github.spartatech.sqljson.vo.JsonQueryClause;
 import io.github.spartatech.sqljson.vo.JsonResultSet;
+import net.sf.jsqlparser.statement.select.SelectItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.SQLSyntaxErrorException;
 import java.util.*;
@@ -23,23 +24,25 @@ public class JsonProcessor {
 
     private final JsonNode json;
     private final JsonQueryClause query;
+    private final SqlJsonConfig config;
 
     /**
      * Constructor receiving JSON and query.
      *
-     * @param json json to be queried
+     * @param json  json to be queried
      * @param query SQL to be executed
      */
-    public JsonProcessor(JsonNode json, JsonQueryClause query) {
+    public JsonProcessor(JsonNode json, JsonQueryClause query, SqlJsonConfig config) {
         this.json = json;
         this.query = query;
+        this.config = config;
     }
 
     /**
      * Main processor method.
+     *
      * @return List of results found
      * @throws Exception in case of any failure
-     *
      */
     public JsonResultSet process() throws Exception {
         try {
@@ -68,6 +71,7 @@ public class JsonProcessor {
 
     /**
      * Converts from Internal data structure into JsonResultSet.
+     *
      * @param narrowedData internal data representation
      * @return JsonResultSet
      */
@@ -78,9 +82,7 @@ public class JsonProcessor {
             builder.setHeaders(headers);
             narrowedData.forEach(it -> {
                 final List<JsonNode> row = new ArrayList<>();
-                headers.forEach(colName -> {
-                    row.add(it.get(colName));
-                });
+                headers.forEach(colName -> row.add(it.get(colName)));
                 builder.addRow(row);
             });
         }
@@ -91,6 +93,7 @@ public class JsonProcessor {
      * Return the selected columns.
      * Star will return all fields
      * . (dot) will return a json
+     *
      * @param elements all elements to filter columns
      * @return List rows, where rows are a map of cols
      * @throws SQLSyntaxErrorException in case selectors are invalid
@@ -99,7 +102,7 @@ public class JsonProcessor {
         if (query.getReturningFields().get(0).toString().equals("\".\"") && query.getReturningFields().size() > 1) {
             throw new SQLSyntaxErrorException("Selectors '.' cannot be combined with anything else");
         }
-        if ( query.getReturningFields().size() == 1
+        if (query.getReturningFields().size() == 1
                 && query.getReturningFields().get(0).toString().equals("\".\"")) {
             return elements.stream()
                     .map(item -> new LinkedHashMap<>(Map.of(".", item)))
@@ -109,8 +112,8 @@ public class JsonProcessor {
         return elements.stream()
                 .map(row -> {
                     final LinkedHashMap<String, JsonNode> newRow = new LinkedHashMap<>();
-                    for(SelectItem field : query.getReturningFields()) {
-                        final SelectClauseExpressionEvaluator evaluator = new SelectClauseExpressionEvaluator(row);
+                    for (SelectItem field : query.getReturningFields()) {
+                        final SelectClauseExpressionEvaluator evaluator = new SelectClauseExpressionEvaluator(row, config);
                         field.accept(evaluator);
                         newRow.putAll(evaluator.getResult());
 
@@ -140,7 +143,7 @@ public class JsonProcessor {
 //                        }
                     }
                     return newRow;
-        }).collect(Collectors.toList());
+                }).collect(Collectors.toList());
     }
 
 
@@ -150,7 +153,7 @@ public class JsonProcessor {
      * @param table to be filtered
      * @return Filtered elements
      */
-    private List<JsonNode> filter(JsonNode table)  {
+    private List<JsonNode> filter(JsonNode table) {
         if (table instanceof ArrayNode) {
             final ArrayNode items = (ArrayNode) table;
             final List<JsonNode> result = new ArrayList<>();
@@ -187,6 +190,6 @@ public class JsonProcessor {
                 ? new String[0]
                 : query.getRootElement().split("\\.");
 
-        return JsonUtility.findElementInJson(json, query.getRootElement(), pathTokens);
+        return JsonUtility.findElementInJson(json, query.getRootElement(), pathTokens, false);
     }
 }

@@ -1,5 +1,7 @@
 package io.github.spartatech.sqljson.util;
 
+import java.util.Arrays;
+
 public class StringUtility {
 
     private StringUtility() {
@@ -17,5 +19,12 @@ public class StringUtility {
             }
         }
         return unquoted;
+    }
+
+    public static String join(String[] array, String separator) {
+        if (array == null) {
+            return "";
+        }
+        return Arrays.stream(array).reduce((a,b) -> a.concat(separator).concat(b)).orElse("");
     }
 }

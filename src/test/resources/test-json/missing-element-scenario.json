@@ -1,0 +1,13 @@
+{
+  "items" : [
+    {
+      "name": "Daniel",
+      "departments":  ["IT", "API"]
+    },
+    {
+      "name": "John",
+      "age":  41,
+      "departments": ["Finance", "Logistics"]
+    }
+  ]
+}

@@ -7,10 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -74,7 +71,7 @@ public class JsonResultSet {
     /* ResultSet derived methods */
 
     public String getString(int columnIndex) {
-        return rows.get(currentRow).getColumn(columnIndex).asText();
+        return rows.get(currentRow).getColumn(columnIndex).textValue();
     }
 
     public boolean getBoolean(int columnIndex) {
@@ -157,8 +154,13 @@ public class JsonResultSet {
         return rows.get(currentRow).getColumn(indexForLabel(columnLabel)).asInt();
     }
 
-    public long getLong(String columnLabel) throws SQLException {
-        return rows.get(currentRow).getColumn(indexForLabel(columnLabel)).asLong();
+    public Long getLong(String columnLabel) throws SQLException {
+        final JsonNode node = rows.get(currentRow).getColumn(indexForLabel(columnLabel));
+        if (node.isNull()) {
+            return null;
+        } else {
+            return node.asLong();
+        }
     }
 
     public float getFloat(String columnLabel) throws SQLException {

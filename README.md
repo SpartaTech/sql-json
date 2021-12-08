@@ -163,9 +163,22 @@ This object allows you to iterate over the resultSet and retrieve data. Example 
 final JsonResultSet results = sqlj.queryAsJSONObject("select fieldA from element");
 while(results.next()) {
   results.getString("name"));
-  results.getInmt("idade"));
+  results.getInt("idade"));
 }
 ```
+## Configurations
+Library provide some customizations this configuration can be set using class ``SqlJsonConfigurer`` and should be send 
+during instantiation of ``SqlJson``.
+
+```
+final SqlJson sqlj = new SqlJson(json, SqlJsonConfigurer.instance().strictResultRowExistence());
+```
+
+The current options are:
+
+``strictResultRowExistence()``
+Enabling this will force result items in the projection selection to exist,
+otherwise it fails the query.
 
 ## Next Steps
 This library is still in early development process, there are many more operations intended to be added. 
